@@ -1,8 +1,6 @@
 package P1;
 
-import javax.sound.midi.SysexMessage;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -108,33 +106,40 @@ public class MainApp {
                     System.out.print("Introduceti numarul de inventar al echipamenului pe care vreti sa schimbati starea: ");
                     Scanner scanner3 = new Scanner(System.in);
                     int nr_inventar_de_cautat = scanner3.nextInt();
+                    for(EchipamenteElectronice e: echipamente) {
+                        if (e.nr_inventar == nr_inventar_de_cautat) {
+                            System.out.println("stare noua: ");
+                            scanner3.nextLine();
+                            String stare_noua = scanner3.nextLine();
+                            switch (stare_noua) {
+                                case "achizitionat":
+                                    e.setStatus(StareEchipament.achizitionat);
+                                    break;
+                                case "expus":
+                                    e.setStatus(StareEchipament.expus);
+                                    break;
+                                case "vandut":
+                                    e.setStatus(StareEchipament.vandut);
+                                    break;
+                                default:
+                                    break;
+                            }
+                            System.out.println(e);
 
-                    EchipamenteElectronice aux = null;
-                    for(EchipamenteElectronice e: echipamente){
-                        if(e.nr_inventar == nr_inventar_de_cautat){
-                            aux = e;
-                            break;
                         }
                     }
-
-                    if(aux != null){
-                        System.out.print("Introduceti noua stare(achizitionat, expus, vandut): ");
-                        String noua_stare = String.valueOf(scanner3.nextLine().toLowerCase());
-                        aux.status = StareEchipament.valueOf(noua_stare);
-                        System.out.println("Starea echipamentului a fost modificat cu succes!!");
-                    }else{
-                        System.out.println("Starea echipamentului nu a fost modificat cu succes!!");
-                    } // da-l dracu de schimb
                     break;
-
-                case 6:
-                    System.out.print("Introduceti tipul de scriere nou pentru imprimanta: ");
-                    Scanner scanner4 = new Scanner(System.in);
-                    String tip_de_scriere_cautat = scanner4.nextLine();
-                    for(EchipamenteElectronice e: echipamente) {
-                        if(e instanceof Imprimante && ((Imprimante) e).mod_tiparire.equals(tip_de_scriere_cautat)){
-                            System.out.println("S-a terminat smecheria cu imprimanta pizdii");
-                                ((Imprimante) e).setMod_tiparire(tip_de_scriere_cautat);
+                        case 6:
+                            System.out.print("Introduceti tipul de scriere nou pentru imprimanta: ");
+                            Scanner scanner4 = new Scanner(System.in);
+                            String tip_de_scriere_cautat = scanner4.nextLine();
+                            System.out.print("Introduceti codul nou pentru imprimanta: ");
+                            int cod = scanner4.nextInt();
+                            for(EchipamenteElectronice e: echipamente) {
+                                if(e instanceof Imprimante && e.getNr_inventar() == cod){
+                                    System.out.println(e);
+                                    ((Imprimante) e).setMod_tiparire(tip_de_scriere_cautat);
+                                    System.out.println(e);
                         }
                     }
                     break;
